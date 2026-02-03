@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
-import { HouseIllustration } from "./Illustrations";
 
-const navItems = [
+import { useState, useEffect } from "react";
+import { SiteData } from "@/lib/useSiteData";
+
+const defaultNav = [
   { label: "園の特色", href: "#about" },
   { label: "一日の流れ", href: "#daily" },
   { label: "入園案内", href: "#admission" },
@@ -10,90 +11,54 @@ const navItems = [
   { label: "アクセス", href: "#access" },
 ];
 
-export default function Header() {
+export default function Header({ site }: { site?: SiteData | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const siteName = site?.name || "ひだまり幼稚園";
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-bg/95 backdrop-blur-md shadow-[0_1px_0_0_#F2EDE6]"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.04)]" : ""}`}
+      style={{ backgroundColor: scrolled ? "rgba(250,248,245,0.95)" : "transparent" }}
     >
-      <div className="mx-auto max-w-site flex items-center justify-between px-5 md:px-8 h-16 md:h-20">
-        {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <HouseIllustration className="w-6 h-7 transition-transform group-hover:scale-105" />
-          <span className="font-heading text-text font-medium text-base md:text-lg tracking-jp">
-            ひだまり幼稚園
+      <div className="mx-auto flex items-center justify-between px-5 md:px-10" style={{ maxWidth: 1200, height: 72 }}>
+        <a href="#" className="flex items-center gap-2">
+          <span className="text-lg tracking-wide" style={{ fontFamily: "var(--font-heading)", color: scrolled ? "var(--text)" : "#fff", fontWeight: 500, transition: "color 0.3s" }}>
+            {siteName}
           </span>
         </a>
-
-        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="relative text-text text-[15px] font-body tracking-jp py-1 transition-colors hover:text-accent group"
-            >
+          {defaultNav.map((item) => (
+            <a key={item.href} href={item.href} className="nav-link text-sm tracking-wider transition-colors duration-200"
+              style={{ fontFamily: "var(--font-body)", color: scrolled ? "var(--text)" : "#fff", fontWeight: 400 }}>
               {item.label}
-              <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-accent transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </nav>
-
-        {/* Mobile Hamburger */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden w-8 h-8 flex flex-col items-center justify-center gap-[5px]"
-          aria-label="メニュー"
-        >
-          <span
-            className={`block w-5 h-[1.5px] bg-text transition-all duration-300 ${
-              isOpen ? "rotate-45 translate-y-[6.5px]" : ""
-            }`}
-          />
-          <span
-            className={`block w-5 h-[1.5px] bg-text transition-all duration-300 ${
-              isOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block w-5 h-[1.5px] bg-text transition-all duration-300 ${
-              isOpen ? "-rotate-45 -translate-y-[6.5px]" : ""
-            }`}
-          />
+        <button className="md:hidden flex flex-col gap-1.5 p-2" onClick={() => setIsOpen(!isOpen)} aria-label="メニュー">
+          <span className="block w-6 transition-all duration-300" style={{ height: 1.5, backgroundColor: scrolled ? "var(--text)" : "#fff", transform: isOpen ? "rotate(45deg) translateY(4.5px)" : "none" }} />
+          <span className="block w-6 transition-all duration-300" style={{ height: 1.5, backgroundColor: scrolled ? "var(--text)" : "#fff", opacity: isOpen ? 0 : 1 }} />
+          <span className="block w-6 transition-all duration-300" style={{ height: 1.5, backgroundColor: scrolled ? "var(--text)" : "#fff", transform: isOpen ? "rotate(-45deg) translateY(-4.5px)" : "none" }} />
         </button>
       </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${
-          isOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <nav className="bg-bg/98 backdrop-blur-md border-t border-bg-alt px-5 py-6 flex flex-col gap-5">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={() => setIsOpen(false)}
-              className="text-text text-base font-body tracking-jp transition-colors hover:text-accent"
-            >
-              {item.label}
-            </a>
-          ))}
+      {isOpen && (
+        <nav className="md:hidden animate-fade-in" style={{ backgroundColor: "rgba(250,248,245,0.98)", backdropFilter: "blur(12px)" }}>
+          <div className="px-5 py-6 flex flex-col gap-5">
+            {defaultNav.map((item) => (
+              <a key={item.href} href={item.href} onClick={() => setIsOpen(false)} className="text-base tracking-wider"
+                style={{ fontFamily: "var(--font-body)", color: "var(--text)" }}>
+                {item.label}
+              </a>
+            ))}
+          </div>
         </nav>
-      </div>
+      )}
     </header>
   );
 }

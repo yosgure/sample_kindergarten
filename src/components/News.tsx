@@ -1,83 +1,72 @@
 "use client";
-import FadeIn from "./FadeIn";
 
-const news = [
-  {
-    date: "2026.02.01",
-    category: "お知らせ",
-    title: "令和8年度 園児募集のご案内",
-  },
-  {
-    date: "2026.01.20",
-    category: "イベント",
-    title: "節分の豆まき会を行います",
-  },
-  {
-    date: "2026.01.10",
-    category: "お知らせ",
-    title: "1月の園見学日程が決まりました",
-  },
-  {
-    date: "2025.12.20",
-    category: "報告",
-    title: "クリスマス会の様子をお届けします",
-  },
-  {
-    date: "2025.12.05",
-    category: "お知らせ",
-    title: "年末年始の休園日について",
-  },
+import Section from "./Section";
+import { SiteData, NewsItem } from "@/lib/useSiteData";
+
+const defaultNews = [
+  { date: "2026.01.28", category: "お知らせ", title: "2026年度 入園説明会のご案内" },
+  { date: "2026.01.15", category: "イベント", title: "節分の豆まき会を行いました" },
+  { date: "2026.01.06", category: "お知らせ", title: "3学期の始業式について" },
+  { date: "2025.12.20", category: "イベント", title: "クリスマス発表会のお写真を掲載しました" },
+  { date: "2025.12.10", category: "食育", title: "12月の給食だよりを更新しました" },
 ];
 
-export default function News() {
+const categoryLabels: Record<string, string> = {
+  important: "重要",
+  admission: "入園",
+  info: "お知らせ",
+  event: "イベント",
+  daily: "日常",
+};
+
+export default function News({ site, news }: { site?: SiteData | null; news?: NewsItem[] }) {
+  const hasFirestoreNews = news && news.length > 0;
+
   return (
-    <section id="news" className="section-padding bg-bg-alt">
-      <div className="section-inner">
-        {/* Section Header */}
-        <FadeIn>
-          <div className="mb-12 md:mb-16">
-            <p className="section-label">News</p>
-            <h2 className="section-title">お知らせ</h2>
-          </div>
-        </FadeIn>
-
-        {/* News List */}
-        <div className="max-w-content">
-          {news.map((item, i) => (
-            <FadeIn key={item.title} delay={i * 60}>
-              <a
-                href="#"
-                className="group flex flex-col md:flex-row md:items-center gap-1 md:gap-6 py-5 border-b border-text/5 hover:bg-bg/50 transition-colors duration-300 -mx-3 px-3 rounded-sm"
-              >
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <time className="font-display text-text-sub text-sm tracking-wider">
-                    {item.date}
-                  </time>
-                  <span className="text-[11px] text-accent border border-accent/30 px-2 py-0.5 rounded-sm tracking-jp">
-                    {item.category}
-                  </span>
-                </div>
-                <p className="text-text text-sm md:text-[15px] tracking-jp group-hover:text-accent transition-colors duration-300">
-                  {item.title}
-                </p>
-              </a>
-            </FadeIn>
-          ))}
+    <Section id="news" enTitle="News" jpTitle="お知らせ" alt>
+      <div className="mx-auto" style={{ maxWidth: 720 }}>
+        <div className="space-y-0">
+          {hasFirestoreNews
+            ? news.map((item) => (
+                <a key={item.id} href="#" className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 group transition-colors"
+                  style={{ padding: "1.125rem 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <time className="tabular-nums" style={{ fontFamily: "var(--font-display)", fontSize: "0.8125rem", color: "var(--text-sub)", letterSpacing: "0.02em" }}>
+                      {item.date?.replace(/-/g, ".")}
+                    </time>
+                    <span className="inline-block" style={{ fontSize: "0.6875rem", color: "var(--accent)", border: "1px solid var(--accent)", borderRadius: "var(--radius-sm)", padding: "1px 8px", letterSpacing: "0.04em", fontFamily: "var(--font-heading)" }}>
+                      {categoryLabels[item.category || "info"] || "お知らせ"}
+                    </span>
+                  </div>
+                  <p className="group-hover:opacity-60 transition-opacity" style={{ fontSize: "0.9375rem", color: "var(--text)", lineHeight: 1.7 }}>
+                    {item.title}
+                  </p>
+                </a>
+              ))
+            : defaultNews.map((item, i) => (
+                <a key={i} href="#" className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 group transition-colors"
+                  style={{ padding: "1.125rem 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <time className="tabular-nums" style={{ fontFamily: "var(--font-display)", fontSize: "0.8125rem", color: "var(--text-sub)", letterSpacing: "0.02em" }}>
+                      {item.date}
+                    </time>
+                    <span className="inline-block" style={{ fontSize: "0.6875rem", color: "var(--accent)", border: "1px solid var(--accent)", borderRadius: "var(--radius-sm)", padding: "1px 8px", letterSpacing: "0.04em", fontFamily: "var(--font-heading)" }}>
+                      {item.category}
+                    </span>
+                  </div>
+                  <p className="group-hover:opacity-60 transition-opacity" style={{ fontSize: "0.9375rem", color: "var(--text)", lineHeight: 1.7 }}>
+                    {item.title}
+                  </p>
+                </a>
+              ))}
         </div>
-
-        {/* More Link */}
-        <FadeIn delay={300}>
-          <div className="mt-8">
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 text-text-sub text-sm tracking-jp hover:text-accent transition-colors duration-300 group"
-            >
-              <span>お知らせ一覧</span>
-              <span className="inline-block w-6 h-[1px] bg-text-sub group-hover:bg-accent group-hover:w-10 transition-all duration-300" />
-            </a>
-          </div>
-        </FadeIn>
+        <div className="mt-8 text-center">
+          <a href="#" className="inline-block transition-opacity hover:opacity-60"
+            style={{ fontSize: "0.8125rem", color: "var(--text-sub)", fontFamily: "var(--font-body)", letterSpacing: "0.06em", borderBottom: "1px solid var(--text-sub)", paddingBottom: 2 }}>
+            お知らせ一覧へ →
+          </a>
+        </div>
       </div>
-    </section>
+    </Section>
   );
 }

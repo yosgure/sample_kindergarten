@@ -1,102 +1,125 @@
 export function LeafIllustration({ className = "" }: { className?: string }) {
   return (
-    <svg className={className} width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M16 38C16 38 4 28 4 16C4 8 9 2 16 2C23 2 28 8 28 16C28 28 16 38 16 38Z"
-        stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
-      <path
-        d="M16 38V12" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round"
-      />
-      <path
-        d="M16 20C12 18 9 14 9 14" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
-      <path
-        d="M16 26C20 24 23 20 23 20" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      stroke="#3C3C3C"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M20 36c0-16 8-24 16-28C28 12 20 16 20 36z" />
+      <path d="M20 36c0-16-8-24-16-28C12 12 20 16 20 36z" />
+      <path d="M20 14v22" />
     </svg>
   );
 }
 
 export function StarIllustration({ className = "" }: { className?: string }) {
   return (
-    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M12 2C12 2 14 8 12 12C10 16 12 22 12 22"
-        stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
-      <path
-        d="M2 12C2 12 8 10 12 12C16 14 22 12 22 12"
-        stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      stroke="#3C3C3C"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M16 4l3.5 8.5L28 14l-6.5 5.5L23 28l-7-4.5L9 28l1.5-8.5L4 14l8.5-1.5z" />
     </svg>
   );
 }
 
 export function CloudIllustration({ className = "" }: { className?: string }) {
   return (
-    <svg className={className} width="48" height="28" viewBox="0 0 48 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M10 24C5.5 24 2 21 2 17C2 13.5 4.5 10.5 8 10C8 5 12 2 17 2C21 2 24.5 4.5 25.5 8C26.5 7.5 28 7 29 7C33 7 36 10 36 14C36 14.5 36 15 35.8 15.5C38.5 16 40.5 18.5 40.5 21.5C40.5 23 39 24 37 24H10Z"
-        stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 60 32"
+      fill="none"
+      stroke="#3C3C3C"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M12 26c-5 0-8-3.5-8-7.5S7 11 12 11c1-4.5 5-8 10-8 6 0 10.5 4 11 9.5 4.5 0.5 8 3.5 8 7.5s-3.5 6.5-8 6.5z" />
     </svg>
   );
 }
 
 export function FlowerIllustration({ className = "" }: { className?: string }) {
   return (
-    <svg className={className} width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="14" cy="14" r="3" stroke="#3C3C3C" strokeWidth="1.5" />
-      <path d="M14 3C14 3 16 8 14 11" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M14 17C14 17 12 22 14 25" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M3 14C3 14 8 12 11 14" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M17 14C17 14 22 16 25 14" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M6 6C6 6 10 9 11.5 12" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M16.5 16C16.5 16 18 21 22 22" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M22 6C22 6 18 9 16.5 12" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M11.5 16C11.5 16 10 21 6 22" stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" />
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      stroke="#3C3C3C"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <circle cx="16" cy="14" r="3" />
+      <path d="M16 11c0-4-2-7-2-7s4 3 4 7" />
+      <path d="M13.5 12.5c-3.5-2-7-1.5-7-1.5s4.5 1 6.5 4" />
+      <path d="M13.5 15.5c-3.5 2-5 5.5-5 5.5s2.5-3 6-3.5" />
+      <path d="M18.5 15.5c3.5 2 5 5.5 5 5.5s-2.5-3-6-3.5" />
+      <path d="M18.5 12.5c3.5-2 7-1.5 7-1.5s-4.5 1-6.5 4" />
+      <path d="M16 17v11" />
     </svg>
   );
 }
 
 export function BirdIllustration({ className = "" }: { className?: string }) {
   return (
-    <svg className={className} width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M2 16C2 16 8 8 18 12C28 16 34 8 34 8"
-        stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 40 28"
+      fill="none"
+      stroke="#3C3C3C"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M4 18c4-8 12-12 20-14-4 4-6 8-4 14" />
+      <path d="M24 4c4-1 8 0 12 2-4 1-6 3-8 6" />
+      <circle cx="28" cy="8" r="1" fill="#3C3C3C" />
     </svg>
   );
 }
 
 export function HouseIllustration({ className = "" }: { className?: string }) {
   return (
-    <svg className={className} width="32" height="36" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M4 16L16 4L28 16V32H4V16Z"
-        stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
-      <rect x="12" y="22" width="8" height="10" rx="1"
-        stroke="#3C3C3C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
-      <circle cx="16" cy="12" r="2" stroke="#3C3C3C" strokeWidth="1.5" />
+    <svg
+      viewBox="0 0 40 40"
+      fill="none"
+      stroke="#3C3C3C"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M6 20L20 8l14 12" />
+      <path d="M10 18v16h20V18" />
+      <path d="M16 34v-10h8v10" />
+      <path d="M14 24h4v3h-4z" />
     </svg>
   );
 }
 
 export function ScrollArrow({ className = "" }: { className?: string }) {
   return (
-    <svg className={className} width="20" height="32" viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M10 2V26"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-      />
-      <path
-        d="M3 20L10 28L17 20"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
-      />
+    <svg
+      viewBox="0 0 24 40"
+      fill="none"
+      stroke="#FAF8F5"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M12 4v28" />
+      <path d="M6 26l6 8 6-8" />
     </svg>
   );
 }

@@ -3,14 +3,14 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "こどものいえ ひだまり幼稚園",
-  description: "藤沢市のモンテッソーリ教育を取り入れた幼稚園。子どもの「やりたい」を見守り、自ら学ぶ力を育てます。",
+  description: "モンテッソーリ教育を取り入れた、子どもたちの「やってみたい」を大切にする幼稚園です。",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="ja">
       <head>
@@ -21,9 +21,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body bg-bg text-text antialiased">
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

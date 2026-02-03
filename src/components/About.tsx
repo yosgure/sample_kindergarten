@@ -1,103 +1,61 @@
 "use client";
-import FadeIn from "./FadeIn";
-import { LeafIllustration, FlowerIllustration } from "./Illustrations";
 
-const features = [
+import Section from "./Section";
+import { FlowerIllustration, StarIllustration } from "./Illustrations";
+import { SiteData } from "@/lib/useSiteData";
+
+const defaultFeatures = [
   {
-    title: "子ども主体の環境",
-    description:
-      "教室のすべてが子どもの手の届く高さに。自分で選び、自分で始め、自分で片づける。その一連の流れが「生きる力」を育みます。",
-    image: "https://images.unsplash.com/photo-1587654780291-39c9404d7dd0?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&h=600&fit=crop&q=80",
+    title: "モンテッソーリ教育",
+    description: "子どもが自分で選び、自分のペースで取り組む「おしごと」の時間。集中する力、最後までやり遂げる力が自然と育ちます。",
   },
   {
-    title: "食を通じた学び",
-    description:
-      "園の畑で育てた野菜を収穫し、自分たちで調理する。「食べる・つくる・育てる」が日常にある暮らしの中で、五感を使った学びが広がります。",
-    image: "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&q=80",
+    title: "食育と手づくり給食",
+    description: "園の畑で育てた野菜を、子どもたちが自分で調理する食育活動。「いただきます」の意味を体験から学びます。",
   },
   {
-    title: "自然と遊ぶ毎日",
-    description:
-      "園庭の大きな木、小さな虫、季節の花。自然の中で遊び、発見し、不思議に思う。好奇心を制限しない環境がここにあります。",
-    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1564429238961-bf8e8d170e1e?w=800&h=600&fit=crop&q=80",
+    title: "自然とともに育つ",
+    description: "広い園庭と四季折々の自然。泥んこ遊び、虫探し、水遊び。五感をめいっぱい使って、いのちの不思議さに触れます。",
   },
 ];
 
-export default function About() {
+export default function About({ site }: { site?: SiteData | null }) {
+  const rawFeatures = site?.about?.features;
+  const features = Array.isArray(rawFeatures) && rawFeatures.filter((f: { title: string }) => f.title).length > 0
+    ? rawFeatures.filter((f: { title: string }) => f.title)
+    : defaultFeatures;
+
   return (
-    <section id="about" className="section-padding bg-bg">
-      <div className="section-inner">
-        {/* Section Header */}
-        <FadeIn>
-          <div className="mb-12 md:mb-20">
-            <p className="section-label">About Us</p>
-            <h2 className="section-title">園の特色</h2>
+    <Section id="about" enTitle="About Us" jpTitle="園の特色">
+      {site?.about?.intro && (
+        <p className="mb-10 md:mb-14" style={{ fontSize: "0.9375rem", lineHeight: 2, color: "var(--text)", maxWidth: 720 }}>
+          {site.about.intro}
+        </p>
+      )}
+      <div className="space-y-16 md:space-y-24">
+        {features.map((feature: { title: string; description: string; image: string }, i: number) => (
+          <div key={feature.title || i} className={`flex flex-col gap-6 md:gap-12 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} items-center`}>
+            <div className="w-full md:w-[58%] relative">
+              {feature.image && (
+                <img src={feature.image} alt={feature.title} className="w-full object-cover" style={{ aspectRatio: "4/3", borderRadius: "var(--radius-sm)" }} />
+              )}
+              {i === 0 && <FlowerIllustration className="absolute -bottom-4 -right-4 w-10 h-10 opacity-30 hidden md:block" />}
+              {i === 2 && <StarIllustration className="absolute -top-3 -left-3 w-7 h-7 opacity-25 hidden md:block" />}
+            </div>
+            <div className="w-full md:w-[42%] md:px-4">
+              <h3 className="mb-3" style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(1.125rem, 2vw, 1.375rem)", fontWeight: 500, color: "var(--text)" }}>
+                {feature.title}
+              </h3>
+              <p style={{ fontSize: "0.9375rem", lineHeight: 2, color: "var(--text)" }}>
+                {feature.description}
+              </p>
+            </div>
           </div>
-        </FadeIn>
-
-        {/* Intro Text */}
-        <FadeIn delay={100}>
-          <div className="max-w-content mb-16 md:mb-24">
-            <p className="text-text text-base md:text-lg leading-relaxed-jp tracking-jp">
-              ひだまり幼稚園は、マリア・モンテッソーリの教育理念に基づき、
-              子どもたち一人ひとりの「やりたい」という気持ちに寄り添います。
-              大人が教え込むのではなく、環境を整え、見守ることで、
-              子どもが自ら学び、成長していく力を信じています。
-            </p>
-          </div>
-        </FadeIn>
-
-        {/* Feature Grid - Asymmetric */}
-        <div className="space-y-16 md:space-y-28">
-          {features.map((feature, i) => (
-            <FadeIn key={feature.title} delay={i * 100}>
-              <div
-                className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center ${
-                  i % 2 === 1 ? "md:direction-rtl" : ""
-                }`}
-              >
-                {/* Photo - 7 columns */}
-                <div
-                  className={`md:col-span-7 ${
-                    i % 2 === 1 ? "md:col-start-6 md:order-2" : ""
-                  }`}
-                >
-                  <div className="relative overflow-hidden rounded-sm">
-                    <img
-                      src={feature.image}
-                      alt={feature.title}
-                      className="w-full aspect-[4/3] object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-
-                {/* Text - 5 columns */}
-                <div
-                  className={`md:col-span-5 ${
-                    i % 2 === 1 ? "md:col-start-1 md:row-start-1 md:order-1" : ""
-                  }`}
-                >
-                  <div className="relative">
-                    {i === 0 && (
-                      <LeafIllustration className="absolute -top-8 -left-4 opacity-30" />
-                    )}
-                    {i === 2 && (
-                      <FlowerIllustration className="absolute -top-6 -right-2 opacity-30" />
-                    )}
-                    <h3 className="font-heading text-text text-xl md:text-2xl font-medium mb-4 tracking-jp">
-                      {feature.title}
-                    </h3>
-                    <p className="text-text text-sm md:text-base leading-relaxed-jp tracking-jp">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }
