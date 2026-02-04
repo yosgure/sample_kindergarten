@@ -32,12 +32,18 @@ export default function Home() {
   const hasAbout = site?.about?.features?.some((f: { title: string }) => f.title) || site?.about?.intro;
   const hasPrincipal = site?.principalMessage?.name || site?.principalMessage?.message || site?.principal?.name || site?.principal?.greeting;
   const hasDaily = site?.daily?.schedule?.some((s: { time: string }) => s.time);
-  const hasAnnualEvents = site?.annualEvents?.months && Object.values(site.annualEvents.months).some((v: unknown) => typeof v === "string" && (v as string).trim() !== "");
-  const hasGallery = site?.gallery?.images?.some((img: { url: string }) => img.url);
+  // annualEvents は配列 [{month, events}, ...] で保存される
+  const hasAnnualEvents = Array.isArray(site?.annualEvents)
+    ? site.annualEvents.some((e: { events: string }) => e.events && e.events.trim())
+    : false;
+  const hasGallery = site?.gallery?.photos?.some((p: { src: string }) => p.src) || site?.gallery?.images?.some((img: { url: string }) => img.url);
   const hasTestimonials = site?.testimonials?.items?.some((t: { text: string }) => t.text);
   const hasAdmission = site?.admission?.text || site?.admission?.fees?.some((f: { item: string }) => f.item);
   const hasNews = news && news.length > 0;
-  const hasFAQ = site?.faq?.items?.some((q: { question: string }) => q.question);
+  // faq は配列 [{question, answer}, ...] で保存される
+  const hasFAQ = Array.isArray(site?.faq)
+    ? site.faq.some((q: { question: string }) => q.question)
+    : site?.faq?.items?.some((q: { question: string }) => q.question);
   const hasInquiry = site?.contact?.tel || site?.contact?.email;
 
   return (

@@ -8,17 +8,11 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div
-      style={{
-        borderBottom: "1px solid rgba(0,0,0,0.06)",
-      }}
-    >
+    <div style={{ borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-start justify-between gap-4 text-left transition-colors"
-        style={{
-          padding: "1.25rem 0",
-        }}
+        style={{ padding: "1.25rem 0" }}
       >
         <div className="flex items-start gap-3">
           <span
@@ -64,15 +58,9 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
       </button>
       <div
         className="overflow-hidden transition-all duration-300"
-        style={{
-          maxHeight: open ? "500px" : "0",
-          opacity: open ? 1 : 0,
-        }}
+        style={{ maxHeight: open ? "500px" : "0", opacity: open ? 1 : 0 }}
       >
-        <div
-          className="flex items-start gap-3 pb-5"
-          style={{ paddingLeft: 0 }}
-        >
+        <div className="flex items-start gap-3 pb-5">
           <span
             className="flex-shrink-0"
             style={{
@@ -102,7 +90,9 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function FAQ({ site }: { site?: SiteData | null }) {
-  const items = site?.faq?.items;
+  // 配列形式 [{question, answer}] と {items: [{question, answer}]} の両方に対応
+  const rawFaq = site?.faq;
+  const items = Array.isArray(rawFaq) ? rawFaq : rawFaq?.items;
   if (!Array.isArray(items)) return null;
 
   const validItems = items.filter(
@@ -116,11 +106,7 @@ export default function FAQ({ site }: { site?: SiteData | null }) {
       <div className="mx-auto" style={{ maxWidth: 720 }}>
         {validItems.map(
           (item: { question: string; answer: string }, i: number) => (
-            <FAQItem
-              key={i}
-              question={item.question}
-              answer={item.answer}
-            />
+            <FAQItem key={i} question={item.question} answer={item.answer} />
           )
         )}
       </div>
