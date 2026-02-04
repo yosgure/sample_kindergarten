@@ -6,15 +6,21 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import PhotoStrip from "@/components/PhotoStrip";
 import PrincipalMessage from "@/components/PrincipalMessage";
+import Education from "@/components/Education";
+import History from "@/components/History";
+import Classes from "@/components/Classes";
 import DailySchedule from "@/components/DailySchedule";
 import AnnualEvents from "@/components/AnnualEvents";
+import Facilities from "@/components/Facilities";
 import Gallery from "@/components/Gallery";
+import Safety from "@/components/Safety";
 import Testimonials from "@/components/Testimonials";
 import Admission from "@/components/Admission";
+import PreschoolClass from "@/components/PreschoolClass";
 import News from "@/components/News";
+import FAQ from "@/components/FAQ";
 import InquirySection from "@/components/InquirySection";
 import Access, { Footer } from "@/components/Access";
-import FAQ from "@/components/FAQ";
 
 export default function Home() {
   const { site, loading } = useSiteData();
@@ -28,62 +34,54 @@ export default function Home() {
     );
   }
 
-  // 各セクションの表示判定（管理画面で入力がある場合のみ表示）
+  // ── 表示判定（入力がある場合のみ表示） ──
   const hasAbout = site?.about?.features?.some((f: { title: string }) => f.title) || site?.about?.intro;
-  const hasPrincipal = site?.principalMessage?.name || site?.principalMessage?.message || site?.principal?.name || site?.principal?.greeting;
+  const hasPrincipal = site?.principal?.name || site?.principal?.greeting || site?.principalMessage?.name || site?.principalMessage?.message;
+  const hasEducation = site?.education?.philosophy || site?.education?.curriculum || site?.education?.methods?.some((m: { title: string }) => m.title);
+  const hasHistory = site?.history?.founded || site?.history?.body || site?.history?.milestones?.some((m: { year: string }) => m.year);
+  const hasClasses = Array.isArray(site?.classes) && site.classes.some((c: { description?: string; capacity?: string }) => c.description?.trim() || c.capacity?.trim());
   const hasDaily = site?.daily?.schedule?.some((s: { time: string }) => s.time);
-  // annualEvents は配列 [{month, events}, ...] で保存される
-  const hasAnnualEvents = Array.isArray(site?.annualEvents)
-    ? site.annualEvents.some((e: { events: string }) => e.events && e.events.trim())
-    : false;
+  const hasAnnualEvents = Array.isArray(site?.annualEvents) && site.annualEvents.some((e: { events: string }) => e.events && e.events.trim());
+  const hasFacilities = Array.isArray(site?.facilities) && site.facilities.some((f: { name: string }) => f.name && f.name.trim());
   const hasGallery = site?.gallery?.photos?.some((p: { src: string }) => p.src) || site?.gallery?.images?.some((img: { url: string }) => img.url);
+  const hasSafety = site?.safety?.intro || site?.safety?.measures?.some((m: { title: string }) => m.title);
   const hasTestimonials = site?.testimonials?.items?.some((t: { text: string }) => t.text);
   const hasAdmission = site?.admission?.text || site?.admission?.fees?.some((f: { item: string }) => f.item);
+  const hasPreschool = site?.preschoolClass?.name || site?.preschoolClass?.description;
   const hasNews = news && news.length > 0;
-  // faq は配列 [{question, answer}, ...] で保存される
-  const hasFAQ = Array.isArray(site?.faq)
-    ? site.faq.some((q: { question: string }) => q.question)
-    : site?.faq?.items?.some((q: { question: string }) => q.question);
+  const hasFAQ = Array.isArray(site?.faq) ? site.faq.some((q: { question: string }) => q.question) : site?.faq?.items?.some((q: { question: string }) => q.question);
   const hasInquiry = site?.contact?.tel || site?.contact?.email;
 
   return (
     <>
       <Header site={site} />
       <main>
-        {/* 1. Hero — 常に表示 */}
+        {/* ── 第一印象 ── */}
         <Hero site={site} />
 
-        {/* 2. 園の特色 — 選ばれる理由 */}
+        {/* ── 園を知る ── */}
         {hasAbout && <About site={site} />}
-
-        {/* フォトストリップ or ギャラリー */}
         {hasGallery ? <Gallery site={site} /> : <PhotoStrip />}
-
-        {/* 3. 園長メッセージ — 信頼感 */}
         {hasPrincipal && <PrincipalMessage site={site} />}
+        {hasEducation && <Education site={site} />}
+        {hasHistory && <History site={site} />}
 
-        {/* 4. 一日の流れ */}
+        {/* ── 園生活 ── */}
+        {hasClasses && <Classes site={site} />}
         {hasDaily && <DailySchedule site={site} />}
-
-        {/* 5. 年間行事 */}
         {hasAnnualEvents && <AnnualEvents site={site} />}
+        {hasFacilities && <Facilities site={site} />}
+        {hasSafety && <Safety site={site} />}
 
-        {/* 6. 保護者の声 — 社会的証明 */}
+        {/* ── 信頼・入園 ── */}
         {hasTestimonials && <Testimonials site={site} />}
-
-        {/* 7. 入園案内 */}
         {hasAdmission && <Admission site={site} />}
-
-        {/* 8. お知らせ */}
+        {hasPreschool && <PreschoolClass site={site} />}
         {hasNews && <News site={site} news={news} />}
-
-        {/* 9. よくある質問 */}
         {hasFAQ && <FAQ site={site} />}
 
-        {/* 10. 見学のご案内 — 上品なCTA */}
+        {/* ── お問い合わせ ── */}
         {hasInquiry && <InquirySection site={site} />}
-
-        {/* 11. アクセス — 常に表示 */}
         <Access site={site} />
       </main>
       <Footer site={site} />
