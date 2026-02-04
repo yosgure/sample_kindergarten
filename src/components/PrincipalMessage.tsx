@@ -4,11 +4,12 @@ import Section from "./Section";
 import { SiteData } from "@/lib/useSiteData";
 
 export default function PrincipalMessage({ site }: { site?: SiteData | null }) {
-  const data = site?.principalMessage;
+  // 管理画面は principal に保存、公開サイト用に principalMessage もフォールバック
+  const data = site?.principalMessage || site?.principal;
   if (!data) return null;
 
   const name = data.name || "";
-  const message = data.message || "";
+  const message = data.message || data.greeting || "";
   const photo = data.photo || "";
 
   if (!name && !message) return null;
