@@ -1,30 +1,53 @@
 "use client";
-import FadeIn from "./FadeIn";
 
-const photos = [
-  { src: "https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=600&q=80", alt: "園での制作活動" },
-  { src: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=600&q=80", alt: "自然の中での遊び" },
-  { src: "https://images.unsplash.com/photo-1587654780291-39c9404d7dd0?w=600&q=80", alt: "モンテッソーリ教具" },
-  { src: "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=600&q=80", alt: "食育の時間" },
-];
+import { useInView } from "./useInView";
+import { SiteData } from "@/lib/useSiteData";
 
-export default function Gallery() {
+export default function Gallery({ site }: { site?: SiteData | null }) {
+  const { ref, isInView } = useInView(0.05);
+
+  const images = site?.gallery?.images;
+  if (!Array.isArray(images)) return null;
+
+  const validImages = images.filter(
+    (img: { url: string; caption?: string }) => img.url && img.url.trim()
+  );
+  if (validImages.length === 0) return null;
+
   return (
-    <section className="py-4 md:py-8 bg-bg overflow-hidden">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-        {photos.map((photo, i) => (
-          <FadeIn key={photo.src} delay={i * 120}>
-            <div className="overflow-hidden">
+    <div
+      ref={ref}
+      className="overflow-hidden"
+      style={{
+        backgroundColor: "var(--bg)",
+        padding: "clamp(1rem, 3vw, 2rem) 0",
+      }}
+    >
+      <div className="flex gap-2 md:gap-3">
+        {validImages.slice(0, 6).map(
+          (img: { url: string; caption?: string }, i: number) => (
+            <div
+              key={i}
+              className="flex-1 min-w-0"
+              style={{
+                opacity: isInView ? 1 : 0,
+                transform: isInView ? "translateY(0)" : "translateY(8px)",
+                transition: `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`,
+              }}
+            >
               <img
-                src={photo.src}
-                alt={photo.alt}
-                className="w-full aspect-square object-cover hover:scale-[1.03] transition-transform duration-700"
-                loading="lazy"
+                src={img.url}
+                alt={img.caption || ""}
+                className="w-full object-cover"
+                style={{
+                  aspectRatio: "1/1",
+                  borderRadius: "var(--radius-sm)",
+                }}
               />
             </div>
-          </FadeIn>
-        ))}
+          )
+        )}
       </div>
-    </section>
+    </div>
   );
 }

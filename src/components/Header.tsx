@@ -1,15 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { SiteData } from "@/lib/useSiteData";
-
-const defaultNav = [
-  { label: "園の特色", href: "#about" },
-  { label: "一日の流れ", href: "#daily" },
-  { label: "入園案内", href: "#admission" },
-  { label: "お知らせ", href: "#news" },
-  { label: "アクセス", href: "#access" },
-];
 
 export default function Header({ site }: { site?: SiteData | null }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +13,27 @@ export default function Header({ site }: { site?: SiteData | null }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // 動的ナビ生成：存在するセクションのみ表示
+  const nav = useMemo(() => {
+    const items: { label: string; href: string }[] = [];
+
+    const hasAbout = site?.about?.features?.some((f: { title: string }) => f.title) || site?.about?.intro;
+    const hasDaily = site?.daily?.schedule?.some((s: { time: string }) => s.time);
+    const hasAdmission = site?.admission?.text || site?.admission?.fees?.some((f: { item: string }) => f.item);
+
+    if (hasAbout) items.push({ label: "園の特色", href: "#about" });
+    if (hasDaily) items.push({ label: "一日の流れ", href: "#daily" });
+    if (hasAdmission) items.push({ label: "入園案内", href: "#admission" });
+    items.push({ label: "アクセス", href: "#access" });
+
+    // 見学のご案内はヘッダー右端にさりげなく
+    if (site?.contact?.tel || site?.contact?.email) {
+      items.push({ label: "見学のご案内", href: "#inquiry" });
+    }
+
+    return items;
+  }, [site]);
 
   return (
     <header
@@ -34,7 +47,7 @@ export default function Header({ site }: { site?: SiteData | null }) {
           </span>
         </a>
         <nav className="hidden md:flex items-center gap-8">
-          {defaultNav.map((item) => (
+          {nav.map((item) => (
             <a key={item.href} href={item.href} className="nav-link text-sm tracking-wider transition-colors duration-200"
               style={{ fontFamily: "var(--font-body)", color: scrolled ? "var(--text)" : "#fff", fontWeight: 400 }}>
               {item.label}
@@ -50,7 +63,7 @@ export default function Header({ site }: { site?: SiteData | null }) {
       {isOpen && (
         <nav className="md:hidden animate-fade-in" style={{ backgroundColor: "rgba(250,248,245,0.98)", backdropFilter: "blur(12px)" }}>
           <div className="px-5 py-6 flex flex-col gap-5">
-            {defaultNav.map((item) => (
+            {nav.map((item) => (
               <a key={item.href} href={item.href} onClick={() => setIsOpen(false)} className="text-base tracking-wider"
                 style={{ fontFamily: "var(--font-body)", color: "var(--text)" }}>
                 {item.label}
